@@ -1,17 +1,32 @@
-import React, {useState} from 'react';
-import {View, Text, TextInput,Button, StyleSheet } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { Context } from '../context/BlogContext';
 
-const CreateScreen = () => {
+const CreateScreen = ({ navigation }) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const { addBlogPost } = useContext(Context);
 
     return (
         <View>
             <Text style={styles.lable}>Enter Title</Text>
-            <TextInput style={styles.input} value={title} onChangeText={(text) => setTitle(text)}/>
+            <TextInput style={styles.input}
+                value={title}
+                onChangeText={(text) => setTitle(text)}
+            />
             <Text style={styles.lable}>Enter Content</Text>
-            <TextInput style={styles.input} value={content} onChangeText={(text) => setContent(text)}/>
-            <Button title="Add Post" />
+            <TextInput style={styles.input}
+                value={content}
+                onChangeText={(text) => setContent(text)}
+            />
+            <Button
+                title="Add Post"
+                onPress={() => {
+                    addBlogPost(title, content, () => {
+                        navigation.navigate("Index");
+                    });
+                }}
+            />
         </View>
     );
 };
