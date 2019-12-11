@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity } from 'react-native';
 import { Context } from '../context/BlogContext';
 import { Feather } from '@expo/vector-icons';
+import { NavigationActions } from 'react-navigation';
 
 const IndexScreen = ({ navigation }) => {
     const { state, addBlogPost, deleteBlogPost } = useContext(Context);
@@ -17,7 +18,7 @@ const IndexScreen = ({ navigation }) => {
                 keyExtractor={(blogPost) => blogPost.title}
                 renderItem={({ item }) => {
                     return (
-                        <TouchableOpacity onPress={() => navigation.navigate('Show', { id: item.id }) }>
+                        <TouchableOpacity onPress={() => navigation.navigate('Show', { id: item.id })}>
                             <View style={styles.row}>
                                 <Text style={styles.title}>{item.title}</Text>
                                 <TouchableOpacity onPress={() => deleteBlogPost(item.id)} >
@@ -30,6 +31,14 @@ const IndexScreen = ({ navigation }) => {
             />
         </View>
     );
+};
+
+IndexScreen.navigationOptions = ({ navigation }) => {
+    return {
+        headerRight: <TouchableOpacity onPress={() => navigation.navigate('Create') }>
+            <Feather name="plus" size={30} />
+        </TouchableOpacity>
+    };
 };
 
 const styles = StyleSheet.create({
